@@ -16,6 +16,10 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container">
             <!-- As a heading -->
-            <span class="navbar-brand mb-0 h1">Peoples</span>
+            <span class="navbar-brand mb-0 h1">
+                <a href="<?= base_url(); ?>" class="navbar-brand">
+                    Peoples
+                </a>
+            </span>
         </div>
     </nav>

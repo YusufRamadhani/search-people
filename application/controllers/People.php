@@ -7,6 +7,7 @@ class People extends CI_Controller
         parent::__construct();
         $this->load->model('People_model');
         $this->load->helper(array('url'));
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -40,6 +41,38 @@ class People extends CI_Controller
         // display view
         $this->load->view('templates/header', $data);
         $this->load->view('people/index', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function add()
+    {
+        $data['title'] = 'Add Data People';
+
+        // form rules config
+        $this->form_validation->set_rules('name', 'name people', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('address', 'Address', 'alpha_numeric');
+
+        if ($this->form_validation->run() == FALSE) :
+            // display view
+            $this->load->view('templates/header', $data);
+            $this->load->view('people/add', $data);
+            $this->load->view('templates/footer');
+        else :
+            $this->People_model->addDataPeople();
+            $this->session->set_flashdata('flash', 'added');
+            redirect('people');
+        endif;
+    }
+
+    public function detail($id)
+    {
+        $data['title'] = 'Detail data';
+
+        $data['people'] = $this->People_model->getPeopleById($id);
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('people/detail', $data);
         $this->load->view('templates/footer');
     }
 }
