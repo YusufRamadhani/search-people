@@ -51,7 +51,7 @@ class People extends CI_Controller
         // form rules config
         $this->form_validation->set_rules('name', 'name people', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-        $this->form_validation->set_rules('address', 'Address', 'alpha_numeric');
+        $this->form_validation->set_rules('address', 'Address');
 
         if ($this->form_validation->run() == FALSE) :
             // display view
@@ -74,5 +74,33 @@ class People extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('people/detail', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function edit($id)
+    {
+        $data['title'] = 'Edit data';
+
+        $data['people'] = $this->People_model->getPeopleById($id);
+
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('address', 'Address');
+
+        if ($this->form_validation->run() == FALSE) :
+            $this->load->view('templates/header', $data);
+            $this->load->view('people/edit', $data);
+            $this->load->view('templates/footer');
+        else :
+            $this->People_model->editPeople($id);
+            $this->session->set_flashdata('flash', 'updated');
+            redirect('people');
+        endif;
+    }
+
+    public function delete($id)
+    {
+        $this->People_model->deletePeople($id);
+        $this->session->set_flashdata('flash', 'deleted');
+        redirect('people');
     }
 }

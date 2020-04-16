@@ -47,8 +47,8 @@
                                 <td><?= $ppl['email']; ?></td>
                                 <td>
                                     <a href="<?= base_url('people/detail/' . $ppl['id']); ?>" class="badge badge-success">detail</a>
-                                    <a href="" class="badge badge-warning">edit</a>
-                                    <a href="" class="badge badge-danger">delete</a>
+                                    <a href="<?= base_url('people/edit/' . $ppl['id']); ?>" class="badge badge-warning">edit</a>
+                                    <a href="<?= base_url('people/delete/' . $ppl['id']); ?>" class="badge badge-danger">delete</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
